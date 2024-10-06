@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "300527631860",
+    "project_id": "goodnews-c34c3",
+    "storage_bucket": "goodnews-c34c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300527631860:android:429140b72263d0aa7e8da1",
+        "android_client_info": {
+          "package_name": "com.ajougood.goodnews"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjxlBvuG4JEBe0XJHXZ3hwsOd0E0845Mo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
