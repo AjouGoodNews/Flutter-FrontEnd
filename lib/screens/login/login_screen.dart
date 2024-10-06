@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
+import 'package:goodnews/themes/custom_color.dart';
 import 'components/login_buttons_by_platform.dart';
 import 'components/signing_agreement_notice.dart';
+import 'package:gap/gap.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,47 +22,66 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: const Alignment(0, -0.2),
-                colors: [
-                  Colors.white.withOpacity(0),
-                  Colors.white.withOpacity(0.9),
-                ],
-              ),
+              color: primary
             ),
           ),
           SafeArea(
             child: Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: defaultGapL),
+                padding: EdgeInsets.symmetric(horizontal: defaultGapL, vertical: defaultGapL),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      '플러터 놀이터',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
+                    SizedBox(),
+                    Column(
+                      children: [
+                        Text(
+                          '세 줄로 읽는 오늘의 뉴스',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const Gap(4),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '세줄',
+                              style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              '스',
+                              style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.yellow,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Gap(30),
+                        Image.asset(
+                          'assets/images/logos/logo.png',
+                          height: 132.09,
+                          width: 119,
+                        ),
+                      ]
                     ),
-                    Text(
-                      '테스트입니다.',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    SizedBox(height: 150),
-                    SigningAgreementNotice(
-                      hasAgreed: _agreed,
-                      onTappedAgreementButton: () => _onTappedAgreementButton(),
-                    ),
-                    SizedBox(height: defaultGapL),
-                    LoginButtonsByPlatform(hasAgreed: _agreed),
-                    SizedBox(height: 60),
+                    Column(
+                      children: [
+                        SigningAgreementNotice(
+                          hasAgreed: _agreed,
+                          onTappedAgreementButton: () => _onTappedAgreementButton(),
+                        ),
+                        LoginButtonsByPlatform(hasAgreed: _agreed),
+                      ],
+                    )
                   ],
                 ),
               ),
