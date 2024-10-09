@@ -1,4 +1,5 @@
 import 'package:goodnews/enums/sign_in_method.dart';
+import 'package:goodnews/screens/login/components/apple_login_button.dart';
 import 'package:goodnews/screens/login/components/google_login_button.dart';
 import 'package:goodnews/services/authentication_service.dart';
 
@@ -28,6 +29,13 @@ class LoginButtonsByPlatform extends StatelessWidget {
           child: const GoogleLoginButton(),
         ),
         const SizedBox(height: defaultGapS),
+        Visibility(
+          visible: platform == TargetPlatform.iOS,
+          child: GestureDetector(
+            onTap: () => _onTappedAppleLogin(context),
+            child: const AppleLoginButton(),
+          ),
+        ),
       ],
     );
   }
@@ -38,6 +46,14 @@ class LoginButtonsByPlatform extends StatelessWidget {
     } else {
       _showAgreementNeeded(context: context);
       return;
+    }
+  }
+
+  void _onTappedAppleLogin(BuildContext context) async {
+    if (hasAgreed) {
+      _handleSigningIn(context, signInMethod: SignInMethod.APPLE);
+    } else {
+      _showAgreementNeeded(context: context);
     }
   }
 
