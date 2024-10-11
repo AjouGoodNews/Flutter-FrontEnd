@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goodnews/screens/category/category_screen.dart';
 import 'package:goodnews/screens/category_select/category_select_screen.dart';
 import 'package:goodnews/screens/user_info_write/user_info_write_screen.dart';
 import 'login/login_screen.dart';
@@ -12,6 +13,7 @@ class RouteScreen extends StatelessWidget {
     // return const LoginScreen();
     // return const LoginCompleteScreen();
     // return const CategorySelectScreen();
-    return const UserInfoWriteScreen();
+    // return const UserInfoWriteScreen();
+    return const CategoryScreen();
   }
 }
