@@ -21,8 +21,8 @@ class CustomTheme {
       /// 컬러 설정
       scaffoldBackgroundColor: white,
       primaryColor: primary,
-      splashColor: transparent,
-      highlightColor: transparent,
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       applyElevationOverlayColor: false,
     );
   }

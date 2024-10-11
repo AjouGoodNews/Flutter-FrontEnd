@@ -70,6 +70,8 @@ flutter:
   assets:
     - assets/images/logos/google.png
     - assets/images/logos/logo.png
+    - assets/images/icons/chevron-left-black.png
+    - assets/images/categories/politics.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

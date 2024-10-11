@@ -6,7 +6,7 @@ class CustomTextSelectionTheme {
     return const TextSelectionThemeData(
       cursorColor: black,
       selectionColor: lightGray,
-      selectionHandleColor: transparent,
+      selectionHandleColor: Colors.transparent,
     );
   }
 }
