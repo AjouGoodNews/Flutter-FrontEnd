@@ -8,7 +8,7 @@ class RouteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return const LoginScreen();
-    return const CategorySelectScreen();
+    return const LoginScreen();
+    // return const CategorySelectScreen();
   }
 }
