@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Primary color
 const Color primary = Color(0xFF00D788);
+const Color lightPrimary = Color(0xFFDBFFF2);
 
 /// Gray scale
 const Color black = Color(0xFF323232);
