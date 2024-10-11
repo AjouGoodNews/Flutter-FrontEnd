@@ -22,7 +22,7 @@ class ImageButton extends StatelessWidget {
         children: [
           Container(
             width: 94,
-            height: 84,
+            height: 90,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.black.withOpacity(0.47), // 딤 처리

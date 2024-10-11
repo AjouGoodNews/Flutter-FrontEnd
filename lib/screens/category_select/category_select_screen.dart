@@ -58,7 +58,7 @@ class _CategorySelectScreen extends State<CategorySelectScreen> {
                              ),
                              Text('건너뛰기', style: CustomTextStyle.body1.apply(color: darkGray),)
                            ]),),
-                       const Gap(defaultGapL / 2),
+                       const Gap(defaultGapL),
                        Row(
                          mainAxisAlignment: MainAxisAlignment.center,
                          children: [
@@ -69,26 +69,26 @@ class _CategorySelectScreen extends State<CategorySelectScreen> {
                      ],
                     ),
 
-                    const Gap(defaultGapXL / 2),
+                    const Gap(defaultGapL),
 
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('1/2', style: CustomTextStyle.caption1.apply(color: gray)),
-                        const Gap(defaultGapS / 2),
-                        Text('관심 카테고리를 선택해주세요.', style: CustomTextStyle.title1),
-                        const Gap(defaultGapS / 2),
-                        Text('뉴스 추천에 활용돼요. (4개까지 선택 가능)', style: CustomTextStyle.caption1.apply(color: gray)),
-                      ],
-                    ),
+                    Padding(padding: EdgeInsets.symmetric(horizontal: defaultGapM / 2, vertical: defaultGapM),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('1/2', style: CustomTextStyle.caption1.apply(color: gray)),
+                          const Gap(defaultGapS),
+                          Text('관심 카테고리를 선택해주세요.', style: CustomTextStyle.title1),
+                          const Gap(defaultGapS),
+                          Text('뉴스 추천에 활용돼요. (4개까지 선택 가능)', style: CustomTextStyle.caption1.apply(color: gray)),
+                        ],),),
 
-                    const Gap(10),
+                    const Gap(defaultGapXL),
 
                     Expanded(child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3, // 3개 열
-                        crossAxisSpacing: defaultGapM / 2, // 열 사이 간격
-                        mainAxisSpacing: 2, // 행 사이 간격
+                        crossAxisSpacing: defaultGapL, // 열 사이 간격
+                        mainAxisSpacing: defaultGapM, // 행 사이 간격
                       ),
                       itemCount: imageButtons.length, // 버튼 수
                       itemBuilder: (context, index) {
