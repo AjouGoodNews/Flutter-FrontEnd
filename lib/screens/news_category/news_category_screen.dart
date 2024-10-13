@@ -16,12 +16,19 @@ class NewsCategoryScreen extends StatefulWidget {
 }
 
 class _NewsCategoryScreen extends State<NewsCategoryScreen> {
-  int _selectedIndex = 0;
+  int _selectedNavIndex = 0; // 상단 내비게이션의 인덱스
+  int _selectedCategoryIndex = 0;
   bool _isSummary = true;
+
+  void _onNavItemTapped(int index) {
+    setState(() {
+      _selectedNavIndex = index; // 내비게이션 아이템 선택
+    });
+  }
 
   void _onCategoryButtonClick(int index) {
     setState(() {
-      _selectedIndex = index;
+      _selectedCategoryIndex = index;
     });
   }
 
@@ -73,6 +80,66 @@ class _NewsCategoryScreen extends State<NewsCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: primary,
+        title: Text('홈', style: CustomTextStyle.title3),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(55),
+          child: Container(
+            height: 55,
+            color: beige,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween, // 균등하게 공간 분배
+              children: [
+                // 주제별 탭
+                Expanded(
+                  child: Column(
+                    children: [
+                      TextButton(
+                        onPressed: () => _onNavItemTapped(0),
+                        child: Text(
+                          '주제별',
+                          style: TextStyle(
+                            color: _selectedNavIndex == 0 ? primary : darkGray,
+                          ),
+                        ),
+                      ),
+                      if (_selectedNavIndex == 0) // 선택된 탭에 밑줄 추가
+                        Container(
+                          height: 3,
+                          width: double.infinity, // 전체 너비 사용
+                          color: primary, // 밑줄 색상
+                        ),
+                    ],
+                  ),
+                ),
+                // 오늘의 이슈 탭
+                Expanded(
+                  child: Column(
+                    children: [
+                      TextButton(
+                        onPressed: () => _onNavItemTapped(1),
+                        child: Text(
+                          '오늘의 이슈',
+                          style: TextStyle(
+                            color: _selectedNavIndex == 1 ? primary : darkGray,
+                          ),
+                        ),
+                      ),
+                      if (_selectedNavIndex == 1) // 선택된 탭에 밑줄 추가
+                        Container(
+                          height: 3,
+                          width: double.infinity, // 전체 너비 사용
+                          color: primary, // 밑줄 색상
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           Container(
@@ -95,7 +162,7 @@ class _NewsCategoryScreen extends State<NewsCategoryScreen> {
                           child: CategorySelectButton(
                             label: categories[index]['label'],
                             onPressed: () => _onCategoryButtonClick(categories[index]['idx']),
-                            isSelected: _selectedIndex == categories[index]['idx'], // 선택된 버튼 스타일링
+                            isSelected: _selectedCategoryIndex == categories[index]['idx'], // 선택된 버튼 스타일링
                           ),
                         );
                       }),
