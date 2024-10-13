@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:goodnews/screens/category/category_screen.dart';
+import 'package:goodnews/screens/news_category/news_category_screen.dart';
+import 'package:goodnews/screens/scrap/scrap_screen.dart';
+import 'package:goodnews/screens/search/search_screen.dart';
+import 'package:goodnews/screens/setting/setting_screen.dart';
 import 'package:goodnews/themes/custom_color.dart';
 import 'package:goodnews/themes/custom_font.dart';
 
@@ -12,10 +17,14 @@ class TabScreen extends StatefulWidget {
 class _TabScreenState extends State<TabScreen> {
 
   final List<Widget> _screens = [
-
+    const ScrapScreen(),
+    const SearchScreen(),
+    const NewsCategoryScreen(),
+    const CategoryScreen(),
+    const SettingScreen()
   ];
 
-  int _selectedIndex = 1;
+  int _selectedIndex = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +45,9 @@ class _TabScreenState extends State<TabScreen> {
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.newspaper_outlined,
+                  Icons.assignment_outlined,
                   size: 24,
-                  color: _selectedIndex == 0 ? Colors.black : Colors.black12,
+                  color: _selectedIndex == 0 ? primary : Colors.black,
                 ),
                 label: '스크랩',
               ),
@@ -46,15 +55,31 @@ class _TabScreenState extends State<TabScreen> {
                 icon: Icon(
                   Icons.search_outlined,
                   size: 24,
-                  color: _selectedIndex == 1 ? Colors.black : Colors.black12,
+                  color: _selectedIndex == 1 ? primary : Colors.black,
                 ),
                 label: '검색',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.person_outlined,
+                  Icons.home_outlined,
                   size: 24,
-                  color: _selectedIndex == 2 ? Colors.black : Colors.black12,
+                  color: _selectedIndex == 2 ? primary : Colors.black,
+                ),
+                label: '홈',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.category_outlined,
+                  size: 24,
+                  color: _selectedIndex == 3 ? primary : Colors.black,
+                ),
+                label: '카테고리',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.settings_outlined,
+                  size: 24,
+                  color: _selectedIndex == 4 ? primary : Colors.black,
                 ),
                 label: '설정',
               ),
