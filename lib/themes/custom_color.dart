@@ -15,3 +15,4 @@ const Color white = Color(0xFFFAFAFA);
 const Color red = Color(0xFFD90416);
 const Color green = Color(0xFF34A853);
 const Color yellow = Color(0xFFFFFF00);
+const Color beige = Color(0xFFF6F6F6);
