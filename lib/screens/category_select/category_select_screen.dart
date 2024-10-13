@@ -16,14 +16,14 @@ class CategorySelectScreen extends StatefulWidget {
 class _CategorySelectScreen extends State<CategorySelectScreen> {
   final List<Map<String, String>> imageButtons = [
     {'label': '정치', 'url': 'assets/images/categories/politics.png'},
-    {'label': '경제', 'url': 'assets/images/categories/politics.png'},
-    {'label': '세계', 'url': 'assets/images/categories/politics.png'},
-    {'label': '테크', 'url': 'assets/images/categories/politics.png'},
-    {'label': '노동', 'url': 'assets/images/categories/politics.png'},
-    {'label': '환경', 'url': 'assets/images/categories/politics.png'},
-    {'label': '인권', 'url': 'assets/images/categories/politics.png'},
-    {'label': '문화', 'url': 'assets/images/categories/politics.png'},
-    {'label': '라이프', 'url': 'assets/images/categories/politics.png'},
+    {'label': '경제', 'url': 'assets/images/categories/economy.png'},
+    {'label': '세계', 'url': 'assets/images/categories/world.png'},
+    {'label': '테크', 'url': 'assets/images/categories/tech.png'},
+    {'label': '노동', 'url': 'assets/images/categories/labor.png'},
+    {'label': '환경', 'url': 'assets/images/categories/environment.png'},
+    {'label': '인권', 'url': 'assets/images/categories/humanRights.png'},
+    {'label': '문화', 'url': 'assets/images/categories/culture.png'},
+    {'label': '라이프', 'url': 'assets/images/categories/life.png'},
   ];
 
   @override

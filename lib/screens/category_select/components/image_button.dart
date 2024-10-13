@@ -25,13 +25,22 @@ class ImageButton extends StatelessWidget {
             height: 90,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Colors.black.withOpacity(0.47), // 딤 처리
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                imageUrl, // 로컬 이미지 경로 사용
-                fit: BoxFit.cover,
+              child: Stack(
+                children: [
+                  Image.asset(
+                    imageUrl, // 로컬 이미지 경로 사용
+                    fit: BoxFit.cover,
+                    width: 94,
+                    height: 90,
+                  ),
+                  // 딤 처리
+                  Container(
+                    color: Colors.black.withOpacity(0.47), // 반투명 검정색
+                  ),
+                ],
               ),
             ),
           ),
