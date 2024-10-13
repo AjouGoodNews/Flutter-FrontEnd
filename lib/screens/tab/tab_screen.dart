@@ -35,13 +35,13 @@ class _TabScreenState extends State<TabScreen> {
         children: [
           BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            fixedColor: Colors.black,
+            fixedColor: primary,
             backgroundColor: Colors.white,
             onTap: (index) => _onItemTapped(index),
             currentIndex: _selectedIndex,
             showUnselectedLabels: true,
-            selectedLabelStyle: CustomTextStyle.caption1.apply(color: primary),
-            unselectedLabelStyle: CustomTextStyle.caption1,
+            selectedLabelStyle: CustomTextStyle.caption1.copyWith(color: primary),
+            unselectedLabelStyle: CustomTextStyle.caption1.copyWith(color: Colors.black),
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(
