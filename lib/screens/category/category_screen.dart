@@ -29,6 +29,10 @@ class _CategoryScreen extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('카테고리', style: CustomTextStyle.body1), // AppBar 제목 설정
+        backgroundColor: primary, // AppBar 배경색 설정
+      ),
       body: Stack(
         children: [
           Container(
