@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goodnews/screens/category/category_screen.dart';
-import 'package:goodnews/screens/news_category/news_category_screen.dart';
+import 'package:goodnews/screens/home/home.dart';
 import 'package:goodnews/screens/scrap/scrap_screen.dart';
 import 'package:goodnews/screens/search/search_screen.dart';
 import 'package:goodnews/screens/setting/setting_screen.dart';
@@ -19,7 +19,7 @@ class _TabScreenState extends State<TabScreen> {
   final List<Widget> _screens = [
     const ScrapScreen(),
     const SearchScreen(),
-    const NewsCategoryScreen(),
+    const HomeScreen(),
     const CategoryScreen(),
     const SettingScreen()
   ];

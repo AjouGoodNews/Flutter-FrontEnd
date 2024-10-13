@@ -1,9 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:goodnews/screens/news_category/components/category_select_button.dart';
 import 'package:goodnews/screens/news_category/components/news_card.dart';
-import 'package:goodnews/screens/news_category/components/tag.dart';
-import 'package:goodnews/screens/search/components/custom_search_bar.dart';
+import 'package:goodnews/screens/news_today/news_today_screen.dart';
 import 'package:goodnews/themes/custom_color.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
 import 'package:goodnews/themes/custom_font.dart';
@@ -16,15 +16,8 @@ class NewsCategoryScreen extends StatefulWidget {
 }
 
 class _NewsCategoryScreen extends State<NewsCategoryScreen> {
-  int _selectedNavIndex = 0; // 상단 내비게이션의 인덱스
   int _selectedCategoryIndex = 0;
   bool _isSummary = true;
-
-  void _onNavItemTapped(int index) {
-    setState(() {
-      _selectedNavIndex = index; // 내비게이션 아이템 선택
-    });
-  }
 
   void _onCategoryButtonClick(int index) {
     setState(() {
@@ -80,66 +73,6 @@ class _NewsCategoryScreen extends State<NewsCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: primary,
-        title: Text('홈', style: CustomTextStyle.title3),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(55),
-          child: Container(
-            height: 55,
-            color: beige,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween, // 균등하게 공간 분배
-              children: [
-                // 주제별 탭
-                Expanded(
-                  child: Column(
-                    children: [
-                      TextButton(
-                        onPressed: () => _onNavItemTapped(0),
-                        child: Text(
-                          '주제별',
-                          style: TextStyle(
-                            color: _selectedNavIndex == 0 ? primary : darkGray,
-                          ),
-                        ),
-                      ),
-                      if (_selectedNavIndex == 0) // 선택된 탭에 밑줄 추가
-                        Container(
-                          height: 3,
-                          width: double.infinity, // 전체 너비 사용
-                          color: primary, // 밑줄 색상
-                        ),
-                    ],
-                  ),
-                ),
-                // 오늘의 이슈 탭
-                Expanded(
-                  child: Column(
-                    children: [
-                      TextButton(
-                        onPressed: () => _onNavItemTapped(1),
-                        child: Text(
-                          '오늘의 이슈',
-                          style: TextStyle(
-                            color: _selectedNavIndex == 1 ? primary : darkGray,
-                          ),
-                        ),
-                      ),
-                      if (_selectedNavIndex == 1) // 선택된 탭에 밑줄 추가
-                        Container(
-                          height: 3,
-                          width: double.infinity, // 전체 너비 사용
-                          color: primary, // 밑줄 색상
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
       body: Stack(
         children: [
           Container(

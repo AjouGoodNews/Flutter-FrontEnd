@@ -14,8 +14,8 @@ class RouteScreen extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, AsyncSnapshot<User?> user) {
         if (user.hasData) {
-          // return const TabScreen();
-          return const CategorySelectScreen();
+          return const TabScreen();
+          // return const CategorySelectScreen();
         } else {
           return const LoginScreen();
         }
