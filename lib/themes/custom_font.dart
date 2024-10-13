@@ -62,6 +62,12 @@ class CustomTextStyle {
     fontSize: 14,
     height: 1.28,
   );
+  /// body4 14px, 1.28, 600, Pretendard
+  static TextStyle body4 = baseTextStyle.copyWith(
+    fontSize: 14,
+    height: 1.28,
+    fontWeight: FontWeight.w600,
+  );
 
   // Captions
   /// caption1 12px, 1.25, 400, Pretendard

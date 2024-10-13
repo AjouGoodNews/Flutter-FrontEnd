@@ -72,8 +72,19 @@ flutter:
     - assets/images/logos/apple_white.png
     - assets/images/logos/logo.png
     - assets/images/icons/chevron-left-black.png
+    - assets/images/categories/all.png
     - assets/images/categories/politics.png
+    - assets/images/categories/economy.png
+    - assets/images/categories/world.png
+    - assets/images/categories/tech.png
+    - assets/images/categories/labor.png
+    - assets/images/categories/environment.png
+    - assets/images/categories/humanRights.png
+    - assets/images/categories/culture.png
+    - assets/images/categories/life.png
+    - assets/images/scrap/custom-underline.png
     - assets/images/news_category/custom-check.png
+    - assets/images/scrap/custom-underline.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
