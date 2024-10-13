@@ -149,7 +149,7 @@ class _NewsCategoryScreen extends State<NewsCategoryScreen> {
           ),
           SafeArea(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: defaultGapM * 2, vertical: defaultGapL * 2),
+              padding: EdgeInsets.symmetric(horizontal: defaultGapM * 2, vertical: defaultGapL),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -176,21 +176,20 @@ class _NewsCategoryScreen extends State<NewsCategoryScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      ElevatedButton(
+                      TextButton(
                         onPressed: _onSummaryButtonClick,
                         child: Text(
                           _isSummary ? '요약X' : '요약O',
-                          style: TextStyle(color: _isSummary ? darkGray : Colors.white),
+                          style: CustomTextStyle.caption2.apply(color: _isSummary ? darkGray : Colors.white), // 색상 변경
                         ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _isSummary ? lightGray : primary,
+                        style: TextButton.styleFrom(
+                          backgroundColor: _isSummary ? semiGray : primary, // 배경색 조정
+                          padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2), // padding 조정
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4), // 라운드 모서리
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0), // padding 조정
-                          textStyle: CustomTextStyle.body1,
                         ),
-                      )
+                      ),
                     ],
                   ),
 
