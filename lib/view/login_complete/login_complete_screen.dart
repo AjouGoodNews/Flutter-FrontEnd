@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
 import 'package:goodnews/themes/custom_color.dart';
-import 'package:goodnews/utils/logger.dart';
 import 'package:goodnews/widgets/custom_button.dart';
-import '../login/components/login_buttons_by_platform.dart';
-import '../login/components/signing_agreement_notice.dart';
 import 'package:gap/gap.dart';
 
 class LoginCompleteScreen extends StatefulWidget {
