@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:goodnews/screens/news_category/news_category_screen.dart'; // 카테고리 화면 임포트
-import 'package:goodnews/screens/news_today/news_today_screen.dart'; // 오늘의 이슈 화면 임포트
+import 'package:goodnews/view/news_category/news_category_screen.dart'; // 카테고리 화면 임포트
+import 'package:goodnews/view/news_today/news_today_screen.dart'; // 오늘의 이슈 화면 임포트
 import 'package:goodnews/themes/custom_color.dart';
 import 'package:goodnews/themes/custom_font.dart';
 

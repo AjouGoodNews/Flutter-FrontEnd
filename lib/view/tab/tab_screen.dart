@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:goodnews/screens/category/category_screen.dart';
-import 'package:goodnews/screens/home/home.dart';
-import 'package:goodnews/screens/scrap/scrap_screen.dart';
-import 'package:goodnews/screens/search/search_screen.dart';
-import 'package:goodnews/screens/setting/setting_screen.dart';
+import 'package:goodnews/view/category/category_screen.dart';
+import 'package:goodnews/view/home/home.dart';
+import 'package:goodnews/view/scrap/scrap_screen.dart';
+import 'package:goodnews/view/search/search_screen.dart';
+import 'package:goodnews/view/setting/setting_screen.dart';
 import 'package:goodnews/themes/custom_color.dart';
 import 'package:goodnews/themes/custom_font.dart';
 

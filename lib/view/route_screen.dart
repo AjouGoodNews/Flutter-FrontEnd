@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:goodnews/screens/category_select/category_select_screen.dart';
 
 import 'login/login_screen.dart';
-import 'package:goodnews/screens/tab/tab_screen.dart';
+import 'package:goodnews/view/tab/tab_screen.dart';
 
 class RouteScreen extends StatelessWidget {
   const RouteScreen({super.key});

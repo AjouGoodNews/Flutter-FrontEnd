@@ -1,14 +1,19 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goodnews/enums/sign_in_method.dart';
-import 'package:goodnews/screens/login/components/apple_login_button.dart';
-import 'package:goodnews/screens/login/components/google_login_button.dart';
-import 'package:goodnews/services/authentication_service.dart';
+import 'package:goodnews/themes/custom_widget/interaction/custom_circular_progress_indicator.dart';
+import 'package:goodnews/view/login/components/apple_login_button.dart';
+import 'package:goodnews/view/login/components/google_login_button.dart';
+import 'package:goodnews/service/auth/authentication_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
 import 'package:goodnews/themes/custom_font.dart';
+import 'package:goodnews/view_model/auth/auth_provider.dart';
+import 'package:goodnews/view_model/auth/components/auth_state.dart';
+import 'package:goodnews/view_model/auth/components/auth_state_provider.dart';
 
 /// on android platform, it shows only google signin
-class LoginButtonsByPlatform extends StatelessWidget {
+class LoginButtonsByPlatform extends ConsumerWidget {
   LoginButtonsByPlatform({
     required this.hasAgreed,
     super.key,
@@ -19,46 +24,54 @@ class LoginButtonsByPlatform extends StatelessWidget {
   final AuthenticationService _authenticationService = AuthenticationService();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     var platform = Theme.of(context).platform;
+
+    final authState = ref.watch(authStateProvider);
 
     return Column(
       children: [
         GestureDetector(
-          onTap: () => _onTappedGoogleLogin(context),
-          child: const GoogleLoginButton(),
+          onTap: authState == AuthState.loading ? null : () => _onTappedGoogleLogin(context, ref),
+          child: (authState == AuthState.loading)
+              ? const CustomCircularProgressIndicator()
+              : const GoogleLoginButton(),
         ),
         const SizedBox(height: defaultGapS),
         Visibility(
           visible: platform == TargetPlatform.iOS,
           child: GestureDetector(
-            onTap: () => _onTappedAppleLogin(context),
-            child: const AppleLoginButton(),
+            onTap: authState == AuthState.loading ? null : () => _onTappedAppleLogin(context, ref),
+            child: (authState == AuthState.loading)
+                ? const CustomCircularProgressIndicator()
+                : const AppleLoginButton(),
           ),
         ),
       ],
     );
   }
 
-  void _onTappedGoogleLogin(BuildContext context) async {
+  void _onTappedGoogleLogin(BuildContext context, WidgetRef ref) async {
     if (hasAgreed) {
-      _handleSigningIn(context, signInMethod: SignInMethod.GOOGLE);
+      _handleSigningIn(context, ref, signInMethod: SignInMethod.GOOGLE);
     } else {
       _showAgreementNeeded(context: context);
       return;
     }
   }
 
-  void _onTappedAppleLogin(BuildContext context) async {
+  void _onTappedAppleLogin(BuildContext context, WidgetRef ref) async {
     if (hasAgreed) {
-      _handleSigningIn(context, signInMethod: SignInMethod.APPLE);
+      _handleSigningIn(context, ref, signInMethod: SignInMethod.APPLE);
     } else {
       _showAgreementNeeded(context: context);
     }
   }
 
-  void _handleSigningIn(BuildContext context, {SignInMethod? signInMethod}) async {
-    await _authenticationService.signIn(signInMethod: signInMethod);
+  void _handleSigningIn(BuildContext context, WidgetRef ref, {SignInMethod? signInMethod}) async {
+    final authNotifier = ref.read(authProvider.notifier);
+
+    authNotifier.signIn(signInMethod);
   }
 
   void _showAgreementNeeded({required BuildContext context}) {

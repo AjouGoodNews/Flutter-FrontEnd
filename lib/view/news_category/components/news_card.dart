@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:goodnews/screens/news_category/components/tag.dart';
+import 'package:goodnews/view/news_category/components/tag.dart';
 import 'package:goodnews/themes/custom_color.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
 import 'package:goodnews/themes/custom_font.dart';

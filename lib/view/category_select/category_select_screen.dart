@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:goodnews/screens/category_select/components/image_button.dart';
+import 'package:goodnews/view/category_select/components/image_button.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
 import 'package:goodnews/themes/custom_color.dart';
 import 'package:goodnews/themes/custom_font.dart';
 import 'package:goodnews/widgets/custom_button.dart';
 import 'package:gap/gap.dart';
 
-class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({super.key});
+class CategorySelectScreen extends StatefulWidget {
+  const CategorySelectScreen({super.key});
 
   @override
-  State<CategoryScreen> createState() => _CategoryScreen();
+  State<CategorySelectScreen> createState() => _CategorySelectScreen();
 }
 
-class _CategoryScreen extends State<CategoryScreen> {
+class _CategorySelectScreen extends State<CategorySelectScreen> {
   final List<Map<String, String>> imageButtons = [
     {'label': '정치', 'url': 'assets/images/categories/politics.png'},
     {'label': '경제', 'url': 'assets/images/categories/economy.png'},
@@ -29,17 +29,13 @@ class _CategoryScreen extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('카테고리', style: CustomTextStyle.body1), // AppBar 제목 설정
-        backgroundColor: primary, // AppBar 배경색 설정
-      ),
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-                color: lightPrimary
-            ),
-          ),
+          // Container(
+          //   decoration: BoxDecoration(
+          //       color: primary
+          //   ),
+          // ),
           SafeArea(
             child: Center(
               child: Padding(
@@ -48,14 +44,42 @@ class _CategoryScreen extends State<CategoryScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Column(
+                     children: [
+                       Padding(
+                         padding: EdgeInsets.symmetric(horizontal: defaultGapM / 2, vertical: defaultGapM),
+                         child: Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           children: [
+                             Image.asset(
+                               'assets/images/icons/chevron-left-black.png',
+                               height: 24,
+                               width: 24,
+                             ),
+                             Text('건너뛰기', style: CustomTextStyle.body1.apply(color: darkGray),)
+                           ]),),
+                       const Gap(defaultGapL),
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         children: [
+                           Container(width: 150, height: 6, decoration: BoxDecoration(color: primary),),
+                           Container(width: 150, height: 6, decoration: BoxDecoration(color: lightGray),),
+                         ],
+                       ),
+                     ],
+                    ),
 
-                    Padding(padding: EdgeInsets.symmetric(horizontal: defaultGapM / 2, vertical: defaultGapL),
+                    const Gap(defaultGapL),
+
+                    Padding(padding: EdgeInsets.symmetric(horizontal: defaultGapM / 2, vertical: defaultGapM),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('오늘은 어떤 산업의 기사를 읽어볼까요?', style: CustomTextStyle.title2),
+                          Text('1/2', style: CustomTextStyle.caption1.apply(color: gray)),
                           const Gap(defaultGapS),
-                          Text("원희님은 주로 '정치' 관련 기사를 읽어요.", style: CustomTextStyle.caption1.apply(color: darkGray)),
+                          Text('관심 카테고리를 선택해주세요.', style: CustomTextStyle.title1),
+                          const Gap(defaultGapS),
+                          Text('뉴스 추천에 활용돼요. (4개까지 선택 가능)', style: CustomTextStyle.caption1.apply(color: gray)),
                         ],),),
 
                     const Gap(defaultGapXL),
@@ -74,8 +98,15 @@ class _CategoryScreen extends State<CategoryScreen> {
                           onPressed: () {
                             print('${imageButtons[index]['label']} 클릭됨'); // 클릭 시 레이블 출력
                           },
-                        );},
-                      ),
+                        );
+                      },
+                    ),),
+
+                    CustomButton(
+                      label: '다음으로',
+                      onPressed: () {
+                        print('버튼이 클릭되었습니다!');
+                      },
                     ),
                   ],
                 ),

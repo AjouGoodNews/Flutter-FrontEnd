@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:goodnews/screens/news_category/components/category_select_button.dart';
-import 'package:goodnews/screens/news_category/components/news_card.dart';
-import 'package:goodnews/screens/news_today/news_today_screen.dart';
+import 'package:goodnews/view/news_category/components/category_select_button.dart';
+import 'package:goodnews/view/news_category/components/news_card.dart';
 import 'package:goodnews/themes/custom_color.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
 import 'package:goodnews/themes/custom_font.dart';

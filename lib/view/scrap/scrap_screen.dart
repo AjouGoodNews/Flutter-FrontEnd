@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:goodnews/screens/scrap/components/category_group_button.dart';
-import 'package:goodnews/screens/search/components/custom_search_bar.dart';
+import 'package:goodnews/view/scrap/components/category_group_button.dart';
+import 'package:goodnews/view/search/components/custom_search_bar.dart';
 import 'package:goodnews/themes/custom_color.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
 import 'package:goodnews/themes/custom_font.dart';

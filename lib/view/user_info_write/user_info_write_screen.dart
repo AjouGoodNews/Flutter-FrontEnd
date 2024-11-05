@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:goodnews/screens/user_info_write/components/birth_year_dropdown.dart';
-import 'package:goodnews/screens/user_info_write/components/gender_button.dart';
+import 'package:goodnews/view/user_info_write/components/birth_year_dropdown.dart';
+import 'package:goodnews/view/user_info_write/components/gender_button.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
 import 'package:goodnews/themes/custom_color.dart';
 import 'package:goodnews/themes/custom_font.dart';
