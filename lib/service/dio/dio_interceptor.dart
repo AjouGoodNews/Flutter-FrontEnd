@@ -83,7 +83,7 @@ class DioInterceptor extends InterceptorsWrapper {
       }
     } else {
       logger.e('서버 에러 발생', error: '에러 내용: ${err.response?.data}');
-
+      logger.e('hi', error:err)
       return handler.reject(err);
     }
   }

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:goodnews/view/login_complete/login_complete_screen.dart';
 import 'package:goodnews/view/user_info_write/components/birth_year_dropdown.dart';
 import 'package:goodnews/view/user_info_write/components/gender_button.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
@@ -7,16 +9,21 @@ import 'package:goodnews/themes/custom_font.dart';
 import 'package:goodnews/widgets/custom_button.dart';
 import 'package:gap/gap.dart';
 
+import '../../repository/member_profile/member_profile_repository.dart';
+
 class UserInfoWriteScreen extends StatefulWidget {
-  const UserInfoWriteScreen({super.key});
+  final List<String> selectedCategories;
+
+  const UserInfoWriteScreen({super.key, required this.selectedCategories});
 
   @override
   State<UserInfoWriteScreen> createState() => _UserInfoWriteScreen();
 }
 
 class _UserInfoWriteScreen extends State<UserInfoWriteScreen> {
-  String? selectedGender = '남성'; // 선택된 성별을 저장할 변수
+  String? selectedGender = 'MALE'; // 선택된 성별을 저장할 변수
   int? selectedYear; // 선택된 생년을 저장할 변수
+  final MemberProfileRepository _repository = MemberProfileRepository(); // Repository 인스턴스 생성
 
   void _selectGender(String gender) {
     setState(() {
@@ -28,6 +35,23 @@ class _UserInfoWriteScreen extends State<UserInfoWriteScreen> {
     setState(() {
       selectedYear = year; // 선택된 생년 업데이트
     });
+  }
+
+  Future<void> _submitInfo() async {
+    try {
+      // API 호출
+      await _repository.signup(selectedGender!, widget.selectedCategories);
+      // 성공 시 다음 스크린으로 이동
+      Navigator.push(
+        context,
+        CupertinoPageRoute(
+          builder: (context) => new LoginCompleteScreen(),
+        ),
+      );
+    } catch (e) {
+      // 에러 처리
+      print('회원가입 실패: $e');
+    }
   }
 
   @override
@@ -58,12 +82,17 @@ class _UserInfoWriteScreen extends State<UserInfoWriteScreen> {
                               child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Image.asset(
-                                      'assets/images/icons/chevron-left-black.png',
-                                      height: 24,
-                                      width: 24,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pop(context); // 건너뛰기 버튼
+                                      },
+                                      child: Image.asset(
+                                        'assets/images/icons/chevron-left-black.png',
+                                        height: 24,
+                                        width: 24,
+                                      ),
                                     ),
-                                    Text('건너뛰기', style: CustomTextStyle.body1.apply(color: darkGray),)
+                                    Text('건너뛰기', style: CustomTextStyle.body1.apply(color: darkGray)),
                                   ]),),
                             const Gap(defaultGapL),
                             Row(
@@ -98,14 +127,14 @@ class _UserInfoWriteScreen extends State<UserInfoWriteScreen> {
                               children: [
                                 GenderButton(
                                   label: '남성',
-                                  isSelected: selectedGender == '남성',
-                                  onPressed: () => _selectGender('남성'), // 남성 버튼 클릭 시
+                                  isSelected: selectedGender == 'MALE',
+                                  onPressed: () => _selectGender('MALE'), // 남성 버튼 클릭 시
                                 ),
                                 const Gap(defaultGapL / 2),
                                 GenderButton(
                                   label: '여성',
-                                  isSelected: selectedGender == '여성',
-                                  onPressed: () => _selectGender('여성'), // 여성 버튼 클릭 시
+                                  isSelected: selectedGender == 'FEMALE',
+                                  onPressed: () => _selectGender('FEMALE'), // 여성 버튼 클릭 시
                                 ),
                               ],
                             ),
@@ -124,7 +153,7 @@ class _UserInfoWriteScreen extends State<UserInfoWriteScreen> {
                     CustomButton(
                       label: '다음으로',
                       onPressed: () {
-                        print('버튼이 클릭되었습니다!');
+                        _submitInfo();
                       },
                     ),
                   ],

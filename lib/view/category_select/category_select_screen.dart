@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:goodnews/view/category_select/components/image_button.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
 import 'package:goodnews/themes/custom_color.dart';
 import 'package:goodnews/themes/custom_font.dart';
+import 'package:goodnews/view/user_info_write/user_info_write_screen.dart';
 import 'package:goodnews/widgets/custom_button.dart';
 import 'package:gap/gap.dart';
 
@@ -25,6 +27,8 @@ class _CategorySelectScreen extends State<CategorySelectScreen> {
     {'label': '문화', 'url': 'assets/images/categories/culture.png'},
     {'label': '라이프', 'url': 'assets/images/categories/life.png'},
   ];
+
+  List<String> _selectedCategories = [];
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +55,20 @@ class _CategorySelectScreen extends State<CategorySelectScreen> {
                          child: Row(
                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                            children: [
-                             Image.asset(
-                               'assets/images/icons/chevron-left-black.png',
-                               height: 24,
-                               width: 24,
+                             GestureDetector(
+                               onTap: () {
+                                 Navigator.pop(context);
+                               },
+                               child: Image.asset(
+                                 'assets/images/icons/chevron-left-black.png',
+                                 height: 24,
+                                 width: 24,
+                               ),
                              ),
-                             Text('건너뛰기', style: CustomTextStyle.body1.apply(color: darkGray),)
-                           ]),),
+                             Text('건너뛰기', style: CustomTextStyle.body1.apply(color: darkGray)),
+                           ],
+                         ),
+                       ),
                        const Gap(defaultGapL),
                        Row(
                          mainAxisAlignment: MainAxisAlignment.center,
@@ -96,8 +107,9 @@ class _CategorySelectScreen extends State<CategorySelectScreen> {
                           imageUrl: imageButtons[index]['url']!, // URL
                           label: imageButtons[index]['label']!, // 레이블
                           onPressed: () {
-                            print('${imageButtons[index]['label']} 클릭됨'); // 클릭 시 레이블 출력
+                            _onCategorySelected(imageButtons[index]['label']!);
                           },
+                            isSelected: _selectedCategories.contains(imageButtons[index]['label'])
                         );
                       },
                     ),),
@@ -105,7 +117,12 @@ class _CategorySelectScreen extends State<CategorySelectScreen> {
                     CustomButton(
                       label: '다음으로',
                       onPressed: () {
-                        print('버튼이 클릭되었습니다!');
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => UserInfoWriteScreen(selectedCategories: _selectedCategories),
+                          ),
+                        );
                       },
                     ),
                   ],
@@ -116,5 +133,26 @@ class _CategorySelectScreen extends State<CategorySelectScreen> {
         ],
       ),
     );
+  }
+
+  void _onCategorySelected(String category) {
+    setState(() {
+      if (_selectedCategories.contains(category)) {
+        // 이미 선택된 카테고리라면 해제
+        _selectedCategories.remove(category);
+      } else {
+        // 최대 4개 선택 가능
+        if (_selectedCategories.length < 4) {
+          _selectedCategories.add(category);
+        } else {
+          // 4개 이상 선택 시 경고 메시지 (예: SnackBar)
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('최대 4개 카테고리만 선택할 수 있습니다.'),
+            ),
+          );
+        }
+      }
+    });
   }
 }
