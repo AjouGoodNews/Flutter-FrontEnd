@@ -40,7 +40,7 @@ class _UserInfoWriteScreen extends State<UserInfoWriteScreen> {
   Future<void> _submitInfo() async {
     try {
       // API 호출
-      // await _repository.signup(selectedGender!, widget.selectedCategories);
+      await _repository.signup(selectedGender!, widget.selectedCategories);
       // 성공 시 다음 스크린으로 이동
       Navigator.push(
         context,

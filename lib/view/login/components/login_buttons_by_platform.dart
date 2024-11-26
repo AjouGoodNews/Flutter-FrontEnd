@@ -13,6 +13,7 @@ import 'package:goodnews/themes/custom_font.dart';
 import 'package:goodnews/view_model/auth/auth_provider.dart';
 import 'package:goodnews/view_model/auth/components/auth_state.dart';
 import 'package:goodnews/view_model/auth/components/auth_state_provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../service/logger/logger.dart';
 
@@ -60,11 +61,21 @@ class LoginButtonsByPlatform extends ConsumerWidget {
   }
 
   void _onTappedGoogleLogin(BuildContext context, WidgetRef ref) async {
+    // if (hasAgreed) {
+    //   _handleSigningIn(context, ref, signInMethod: SignInMethod.GOOGLE);
+    // } else {
+    //   _showAgreementNeeded(context: context);
+    //   return;
+    // }
     if (hasAgreed) {
-      _handleSigningIn(context, ref, signInMethod: SignInMethod.GOOGLE);
+      Navigator.push(
+        context,
+        CupertinoPageRoute(
+          builder: (context) => const WebViewExample(signInMethod: SignInMethod.GOOGLE),
+        ),
+      );
     } else {
       _showAgreementNeeded(context: context);
-      return;
     }
   }
 
@@ -77,9 +88,9 @@ class LoginButtonsByPlatform extends ConsumerWidget {
   }
 
   void _handleSigningIn(BuildContext context, WidgetRef ref, {SignInMethod? signInMethod}) async {
-    // final authNotifier = ref.read(authProvider.notifier);
-    //
-    // await authNotifier.signIn(signInMethod);
+    final authNotifier = ref.read(authProvider.notifier);
+
+    await authNotifier.signIn(signInMethod);
 
     Navigator.push(
       context,
@@ -114,5 +125,44 @@ class LoginButtonsByPlatform extends ConsumerWidget {
   }
 }
 
-class SignupWidget {
+class WebViewExample extends StatelessWidget {
+  final SignInMethod signInMethod;
+
+  const WebViewExample({required this.signInMethod, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    late final String url;
+
+    // 로그인 방식에 따라 URL 설정
+    if (signInMethod == SignInMethod.GOOGLE) {
+      url = 'http://10.0.2.2:8080/login';  // 구글 로그인 URL로 변경
+      // url = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=787484589868-258tsbj3vogqecahmeblu1q7eqtglnvr.apps.googleusercontent.com&redirect_uri=http://localhost:8080/login/oauth2/code/google";
+    }
+
+    // WebViewController 생성
+    final WebViewController controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (String url) {
+            // 페이지가 로드 완료된 후의 처리
+            if (url.contains('redirect-url')) {
+              Navigator.pop(context); // 웹뷰 닫기
+              // 추가적인 로그인 성공 처리 로직
+            }
+          },
+        ),
+      );
+
+    // 요청 URL 로드
+    controller.loadRequest(Uri.parse(url));
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('로그인'),
+      ),
+      body: WebViewWidget(controller: controller),
+    );
+  }
 }

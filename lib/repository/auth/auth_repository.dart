@@ -14,27 +14,27 @@ class AuthRepository {
     try {
       logger.i('토큰 발급 시도');
 
-      final response = await http.get(
-        Uri.parse('http://localhost:8080/api/login/success'),
-        headers: {
-          'Authorization': 'Bearer ${googleAccessToken}',
-        },
-      );
-      logger.i(response);
-
-      if (response.statusCode == 200) {
-        final responseData = json.decode(response.body);
-        bool isProfileComplete = responseData['isProfileComplete'];
-
-        // 프로필 상태에 따라 UI 업데이트
-        if (isProfileComplete) {
-          print('프로필이 완성되었습니다.');
-        } else {
-          print('프로필이 완성되지 않았습니다.');
-        }
-      } else {
-        print('로그인 실패: ${response.statusCode}');
-      }
+      // final response = await http.get(
+      //   Uri.parse('http://localhost:8080/api/login/success'),
+      //   headers: {
+      //     'Authorization': 'Bearer ${googleAccessToken}',
+      //   },
+      // );
+      // logger.i(response);
+      //
+      // if (response.statusCode == 200) {
+      //   final responseData = json.decode(response.body);
+      //   bool isProfileComplete = responseData['isProfileComplete'];
+      //
+      //   // 프로필 상태에 따라 UI 업데이트
+      //   if (isProfileComplete) {
+      //     print('프로필이 완성되었습니다.');
+      //   } else {
+      //     print('프로필이 완성되지 않았습니다.');
+      //   }
+      // } else {
+      //   print('로그인 실패: ${response.statusCode}');
+      // }
 
       return {
         'accessToken': googleAccessToken,

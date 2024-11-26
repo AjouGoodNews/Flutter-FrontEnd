@@ -20,5 +20,11 @@ void main() async {
   await Future.delayed(const Duration(seconds: 2));
   FlutterNativeSplash.remove();
 
+  // WebView가 사용되기 전에 초기화합니다.
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const ProviderScope(child: MyApp()));
 }
+
+// redirectUrl <- 웹뷰 띄우기 <- 세션
+// 앱에서 로그인 <- 구현이되있음 accesstoken, refresh <- jwt

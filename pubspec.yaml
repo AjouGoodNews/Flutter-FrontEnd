@@ -50,6 +50,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   fluttertoast: ^8.2.8
   flutter_screenutil: ^5.9.3
+  webview_flutter: ^4.10.0
 
 dev_dependencies:
   flutter_test:
