@@ -94,6 +94,9 @@ flutter:
     - assets/images/news_category/custom-check.png
     - assets/images/scrap/custom-underline.png
     - assets/images/news_today/news-example.png
+    - assets/images/news_detail/three_point.png
+    - assets/images/news_detail/related_news.png
+    - assets/images/news_detail/triangle.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

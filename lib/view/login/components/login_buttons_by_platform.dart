@@ -44,17 +44,17 @@ class LoginButtonsByPlatform extends ConsumerWidget {
               : const GoogleLoginButton(),
         ),
         const SizedBox(height: defaultGapS),
-        Visibility(
-          visible: platform == TargetPlatform.iOS,
-          child: GestureDetector(
-            onTap: authState == AuthState.loading
-                ? null
-                : () => _onTappedAppleLogin(context, ref),
-            child: (authState == AuthState.loading)
-                ? const CustomCircularProgressIndicator()
-                : const AppleLoginButton(),
-          ),
-        ),
+        // Visibility(
+        //   visible: platform == TargetPlatform.iOS,
+        //   child: GestureDetector(
+        //     onTap: authState == AuthState.loading
+        //         ? null
+        //         : () => _onTappedAppleLogin(context, ref),
+        //     child: (authState == AuthState.loading)
+        //         ? const CustomCircularProgressIndicator()
+        //         : const AppleLoginButton(),
+        //   ),
+        // ),
       ],
     );
   }
@@ -77,9 +77,9 @@ class LoginButtonsByPlatform extends ConsumerWidget {
   }
 
   void _handleSigningIn(BuildContext context, WidgetRef ref, {SignInMethod? signInMethod}) async {
-    final authNotifier = ref.read(authProvider.notifier);
-
-    await authNotifier.signIn(signInMethod);
+    // final authNotifier = ref.read(authProvider.notifier);
+    //
+    // await authNotifier.signIn(signInMethod);
 
     Navigator.push(
       context,

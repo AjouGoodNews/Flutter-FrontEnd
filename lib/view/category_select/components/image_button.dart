@@ -24,8 +24,8 @@ class ImageButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center, // 중앙 정렬
         children: [
           Container(
-            width: 94,
-            height: 90,
+            width: 88,
+            height: 84,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border: isSelected

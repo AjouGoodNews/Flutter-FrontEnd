@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
 import 'package:goodnews/themes/custom_color.dart';
+import 'package:goodnews/view/home/home.dart';
 import 'package:goodnews/widgets/custom_button.dart';
 import 'package:gap/gap.dart';
 
@@ -96,7 +98,12 @@ class _LoginScreenState extends State<LoginCompleteScreen> {
                       textColor: primary,
                       backgroundColor: Colors.white,
                       onPressed: () {
-                        print('버튼이 클릭되었습니다!');
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => new HomeScreen(),
+                          ),
+                        );
                       },
                     ),
                   ],
