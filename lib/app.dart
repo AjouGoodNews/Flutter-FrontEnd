@@ -52,12 +52,12 @@ class _MyAppState extends ConsumerState<MyApp> {
               if (infoSnapshot.connectionState == ConnectionState.waiting) {
                 return const Scaffold(body: SafeArea(child: CustomCircularProgressIndicator()));
               } else {
-                //  if (authState == AuthState.authenticated) {
-                //    return const RouteScreen();
-                // } else {
-                  FlutterNativeSplash.remove();
-                  return const LoginScreen();
-                 // }
+                FlutterNativeSplash.remove();
+
+                if (authState == AuthState.authenticated) {
+                   return const RouteScreen();
+                }
+                return const LoginScreen();
               }
             },
           ),
