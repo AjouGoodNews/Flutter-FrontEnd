@@ -4,7 +4,6 @@ import 'package:goodnews/service/dio/dio_service.dart';
 import 'package:goodnews/service/general/general_functions.dart';
 import 'package:goodnews/service/logger/logger.dart';
 
-// categories : POLITICS, ECONOMY, WORLD, TECH, LABOR, ENVIRONMENT, HUMAN_RIGHTS, CULTURE, LIFE
 class MemberProfileRepository {
   final Dio _dio = DioService().dio;
 
