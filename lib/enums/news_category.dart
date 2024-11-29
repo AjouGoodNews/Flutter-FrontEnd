@@ -22,4 +22,9 @@ enum NewsCategory {
   static List<String> getCategoryNames(List<NewsCategory> categories) {
     return categories.map((category) => category.name).toList();
   }
+
+  // 카테고리 도메인 리스트를 반환하는 메서드
+  static List<String> getCategoryDomains() {
+    return NewsCategory.values.map((category) => category.domain).toList();
+  }
 }
