@@ -44,7 +44,7 @@ class DioInterceptor extends InterceptorsWrapper {
       try {
         logger.w("액세스 토큰 만료로 인한 토큰 재발급 시도");
 
-        final baseUrl = dotenv.env['V1_SERVER_BASE_URL'];
+        final baseUrl = dotenv.env['SERVER_BASE_URL'];
 
         // Dio로 시도했을 때, 오류가 계속 발생하여 http로 시도
         final tokenResponse = await http.post(
