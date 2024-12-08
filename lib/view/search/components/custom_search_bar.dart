@@ -4,11 +4,15 @@ import 'package:goodnews/themes/custom_color.dart';
 class CustomSearchBar extends StatelessWidget {
   final String searchQuery; // 검색어 상태
   final Function(String) onChanged; // 검색어 변경 시 호출될 콜백
+  final ValueChanged<String> onSubmitted;
 
-  CustomSearchBar({
+  const CustomSearchBar({
+    super.key,
     required this.searchQuery,
     required this.onChanged,
+    required this.onSubmitted, // 추가된 부분
   });
+
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +24,7 @@ class CustomSearchBar extends StatelessWidget {
       ),
       child: TextField(
         onChanged: onChanged, // 검색어 변경 시 호출될 콜백
+        onSubmitted: onSubmitted,
         decoration: InputDecoration(
           hintText: '(ex- 기사제목, 산업, 기업)', // 플레이스홀더 텍스트
           hintStyle: TextStyle(color: Colors.grey), // 플레이스홀더 색상

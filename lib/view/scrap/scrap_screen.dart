@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:goodnews/view/scrap/components/category_group_button.dart';
@@ -5,6 +6,8 @@ import 'package:goodnews/view/search/components/custom_search_bar.dart';
 import 'package:goodnews/themes/custom_color.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
 import 'package:goodnews/themes/custom_font.dart';
+
+import '../category/category_detail_screen.dart';
 
 class ScrapScreen extends StatefulWidget {
   const ScrapScreen({super.key});
@@ -23,16 +26,16 @@ class _ScrapScreen extends State<ScrapScreen> {
   }
 
   final List<Map<String, String>> categories = [
-    {'label': '모든 기사', 'url': 'assets/images/categories/all.png', 'count': '45'},
-    {'label': '정치', 'url': 'assets/images/categories/politics.png', 'count': '15'},
-    {'label': '경제', 'url': 'assets/images/categories/economy.png', 'count': '13'},
-    {'label': '세계', 'url': 'assets/images/categories/world.png', 'count': '9'},
-    {'label': '테크', 'url': 'assets/images/categories/tech.png', 'count': '6'},
-    {'label': '노동', 'url': 'assets/images/categories/labor.png', 'count': '4'},
-    {'label': '환경', 'url': 'assets/images/categories/environment.png', 'count': '3'},
-    {'label': '인권', 'url': 'assets/images/categories/humanRights.png', 'count': '2'},
-    {'label': '문화', 'url': 'assets/images/categories/culture.png', 'count': '1'},
-    {'label': '라이프', 'url': 'assets/images/categories/life.png', 'count': '0'},
+    {'label': '모든 기사', 'url': 'assets/images/categories/all.png', 'count': '45', 'category': 'ALL'},
+    {'label': '정치', 'url': 'assets/images/categories/politics.png', 'count': '15', 'category': 'POLITICS'},
+    {'label': '경제', 'url': 'assets/images/categories/economy.png', 'count': '13', 'category': 'ECONOMY'},
+    {'label': '세계', 'url': 'assets/images/categories/world.png', 'count': '9', 'category': 'WORLD'},
+    {'label': '테크', 'url': 'assets/images/categories/tech.png', 'count': '6', 'category': 'TECH'},
+    {'label': '노동', 'url': 'assets/images/categories/labor.png', 'count': '4', 'category': 'LABOR'},
+    {'label': '환경', 'url': 'assets/images/categories/environment.png', 'count': '3', 'category': 'ENVIRONMENT'},
+    {'label': '인권', 'url': 'assets/images/categories/humanRights.png', 'count': '2', 'category': 'HUMAN_RIGHTS'},
+    {'label': '문화', 'url': 'assets/images/categories/culture.png', 'count': '1', 'category': 'CULTURE'},
+    {'label': '라이프', 'url': 'assets/images/categories/life.png', 'count': '0', 'category': 'LIFE'},
   ];
 
   @override
@@ -64,6 +67,7 @@ class _ScrapScreen extends State<ScrapScreen> {
                         CustomSearchBar(
                           searchQuery: searchQuery, // 검색어 전달
                           onChanged: _onSearchQueryChanged, // 검색어 변경 시 호출될 콜백
+                          onSubmitted: (text) => {},
                         ),
                       ],
                     ),
@@ -130,7 +134,19 @@ class _ScrapScreen extends State<ScrapScreen> {
                                   label: categories[index]['label']!, // 레이블
                                   count: categories[index]['count']!,
                                   onPressed: () {
-                                    print('${categories[index]['label']} 클릭됨'); // 클릭 시 레이블 출력
+                                    final label = categories[index]['label'];
+                                    final category = categories[index]['category'];
+
+                                    print('$label $category 클릭됨'); // 클릭 시 레이블 출력
+                                    Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder: (context) => NewsCategoryDetailScreen(
+                                          categoryLabel: label,
+                                          category: category,
+                                        ),
+                                      ),
+                                    );
                                   },
                                 );
                               },

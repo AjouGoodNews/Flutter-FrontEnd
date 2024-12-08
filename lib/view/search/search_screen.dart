@@ -4,6 +4,7 @@ import 'package:goodnews/view/search/components/custom_search_bar.dart';
 import 'package:goodnews/themes/custom_color.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
 import 'package:goodnews/themes/custom_font.dart';
+import 'package:goodnews/view/search/search_result_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -19,6 +20,18 @@ class _SearchScreen extends State<SearchScreen> {
     setState(() {
       searchQuery = query; // 검색어 업데이트
     });
+  }
+
+  void _onSearchSubmitted(String query) {
+    if (!query.isNotEmpty) return;
+
+    // 검색어가 비어있지 않은 경우에만 이동
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchResultScreen(query: query), // 검색 결과 화면으로 이동
+      ),
+    );
   }
 
   final List<Map<String, String>> recentSearchQueries = [
@@ -38,9 +51,7 @@ class _SearchScreen extends State<SearchScreen> {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
-                color: lightPrimary
-            ),
+            decoration: BoxDecoration(color: lightPrimary),
           ),
           SafeArea(
             child: Padding(
@@ -51,6 +62,7 @@ class _SearchScreen extends State<SearchScreen> {
                   CustomSearchBar(
                     searchQuery: searchQuery, // 검색어 전달
                     onChanged: _onSearchQueryChanged, // 검색어 변경 시 호출될 콜백
+                    onSubmitted: _onSearchSubmitted, // 엔터 입력 시 호출될 콜백 추가
                   ),
 
                   const Gap(defaultGapL * 2),

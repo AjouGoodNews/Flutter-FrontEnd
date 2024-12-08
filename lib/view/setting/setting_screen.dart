@@ -48,10 +48,10 @@ class _SettingScreen extends State<SettingScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomSearchBar(
-                    searchQuery: searchQuery, // 검색어 전달
-                    onChanged: _onSearchQueryChanged, // 검색어 변경 시 호출될 콜백
-                  ),
+                  // CustomSearchBar(
+                  //   searchQuery: searchQuery, // 검색어 전달
+                  //   onChanged: _onSearchQueryChanged, // 검색어 변경 시 호출될 콜백
+                  // ),
 
                   const Gap(defaultGapL * 2),
 
