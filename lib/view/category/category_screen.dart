@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:goodnews/view/category/category_detail_screen.dart';
 import 'package:goodnews/view/category_select/components/image_button.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
 import 'package:goodnews/themes/custom_color.dart';
@@ -14,15 +16,15 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreen extends State<CategoryScreen> {
   final List<Map<String, String>> imageButtons = [
-    {'label': '정치', 'url': 'assets/images/categories/politics.png'},
-    {'label': '경제', 'url': 'assets/images/categories/economy.png'},
-    {'label': '세계', 'url': 'assets/images/categories/world.png'},
-    {'label': '테크', 'url': 'assets/images/categories/tech.png'},
-    {'label': '노동', 'url': 'assets/images/categories/labor.png'},
-    {'label': '환경', 'url': 'assets/images/categories/environment.png'},
-    {'label': '인권', 'url': 'assets/images/categories/humanRights.png'},
-    {'label': '문화', 'url': 'assets/images/categories/culture.png'},
-    {'label': '라이프', 'url': 'assets/images/categories/life.png'},
+    {'label': '정치', 'url': 'assets/images/categories/politics.png', 'category': 'POLITICS'},
+    {'label': '경제', 'url': 'assets/images/categories/economy.png', 'category': 'ECONOMY'},
+    {'label': '세계', 'url': 'assets/images/categories/world.png', 'category': 'WORLD'},
+    {'label': '테크', 'url': 'assets/images/categories/tech.png', 'category': 'TECH'},
+    {'label': '노동', 'url': 'assets/images/categories/labor.png', 'category': 'LABOR'},
+    {'label': '환경', 'url': 'assets/images/categories/environment.png', 'category': 'ENVIRONMENT'},
+    {'label': '인권', 'url': 'assets/images/categories/humanRights.png', 'category': 'HUMAN_RIGHTS'},
+    {'label': '문화', 'url': 'assets/images/categories/culture.png', 'category': 'CULTURE'},
+    {'label': '라이프', 'url': 'assets/images/categories/life.png', 'category': 'LIFE'},
   ];
 
   @override
@@ -71,7 +73,19 @@ class _CategoryScreen extends State<CategoryScreen> {
                           imageUrl: imageButtons[index]['url']!, // URL
                           label: imageButtons[index]['label']!, // 레이블
                           onPressed: () {
-                            print('${imageButtons[index]['label']} 클릭됨'); // 클릭 시 레이블 출력
+                            final label = imageButtons[index]['label'];
+                            final category = imageButtons[index]['category'];
+
+                            print('$label $category 클릭됨'); // 클릭 시 레이블 출력
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => NewsCategoryDetailScreen(
+                                  categoryLabel: label,
+                                  category: category,
+                                ),
+                              ),
+                            );
                           },
                         );},
                       ),

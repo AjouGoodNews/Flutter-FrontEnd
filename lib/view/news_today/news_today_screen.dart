@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:goodnews/themes/custom_color.dart';
 import 'package:goodnews/themes/custom_decoration.dart';
 import 'package:goodnews/themes/custom_font.dart';
+import 'package:goodnews/view/news_detail/news_detail_screen.dart';
 
 class NewsTodayScreen extends StatefulWidget {
   const NewsTodayScreen({super.key});
@@ -85,6 +86,12 @@ class _NewsTodayScreen extends State<NewsTodayScreen> {
           GestureDetector(
             onTap: () {
               // 버튼 클릭 시의 동작
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NewsDetailScreen(newsId: 1), // newsId 전달
+                ),
+              );
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
