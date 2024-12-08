@@ -17,7 +17,9 @@ class NewsDetailScreen extends StatefulWidget {
 }
 
 class _NewsDetailScreen extends State<NewsDetailScreen> {
-  bool _isThreePointOpen = false;
+  bool _isThreePointOpen1 = false;
+  bool _isThreePointOpen2 = false;
+  bool _isThreePointOpen3 = false;
   final CategoryRepository _categoryRepository = CategoryRepository();
   NewsArticleDetail? _news;
 
@@ -39,9 +41,15 @@ class _NewsDetailScreen extends State<NewsDetailScreen> {
     }
   }
 
-  void _toggleThreePoint() {
+  void _toggleThreePoint(int index) {
     setState(() {
-      _isThreePointOpen = !_isThreePointOpen;
+      if (index == 1) {
+        _isThreePointOpen1 = !_isThreePointOpen1;
+      } else if (index == 2) {
+        _isThreePointOpen2 = !_isThreePointOpen2;
+      } else if (index == 3) {
+        _isThreePointOpen3 = !_isThreePointOpen3;
+      }
     });
   }
 
@@ -144,84 +152,59 @@ class _NewsDetailScreen extends State<NewsDetailScreen> {
                     style: CustomTextStyle.caption2.apply(color: gray),
                   ),
                   const Gap(defaultGapM),
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/news_detail/triangle.png', // 로컬 이미지 경로 사용
-                      ),
-                      const Gap(defaultGapS),
-                      GestureDetector(
-                        onTap: _toggleThreePoint, // 탭 시 설명글 표시/숨김
-                        child: Text(
-                          '하이퍼클로바X (HyperCLOVA X)',
-                          style: CustomTextStyle.body4.apply(
-                            color: darkGray,
-                            decoration: TextDecoration.underline, // 언더라인 추가
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
 
-                  if (_isThreePointOpen) ...[
-                    Container(
-                      padding: EdgeInsets.all(10.0),
-                      margin: const EdgeInsets.only(top: 8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(color: primary, width: 1.0),
-                      ),
-                      child: Text(
-                        '네이버가 개발한 대규모 언어 모델(LLM)로, 생성형 AI 기술을 활용해 다양한 분야에 적용될 예정이다.',
-                        style: CustomTextStyle.body2,
-                      ),
-                    ),
-                  ],
-                  const Gap(defaultGapS),
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/news_detail/triangle.png', // 로컬 이미지 경로 사용
-                      ),
-                      const Gap(defaultGapS),
-                      Text(
-                        '생성형 AI (Generative AI)',
-                        style: CustomTextStyle.body4.apply(
-                          color: darkGray,
-                          decoration: TextDecoration.underline, // 언더라인 추가
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Gap(defaultGapS),
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/news_detail/triangle.png', // 로컬 이미지 경로 사용
-                      ),
-                      const Gap(defaultGapS),
-                      Text(
-                        '록인 효과 (Lock-in Effect)',
-                        style: CustomTextStyle.body4.apply(
-                          color: darkGray,
-                          decoration: TextDecoration.underline, // 언더라인 추가
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const Gap(defaultGapL * 2),
-                  // Image.asset(
-                  //   'assets/images/news_detail/related_news.png', // 로컬 이미지 경로 사용
-                  //   width: 180,
-                  // ),
+                  _buildKeywordRow(1, _news!.keyword1, _news!.keywordDetail1, _isThreePointOpen1),
+                  const Gap(defaultGapS * 2),
+                  _buildKeywordRow(2, _news!.keyword2, _news!.keywordDetail2, _isThreePointOpen2),
+                  const Gap(defaultGapS * 2),
+                  _buildKeywordRow(3, _news!.keyword3, _news!.keywordDetail3, _isThreePointOpen3),
                 ],
               ),
             ),
           )
         ],
       ),
+    );
+  }
+
+  Widget _buildKeywordRow(int index, String keyword, String keywordDetail, bool isOpen) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Image.asset(
+              'assets/images/news_detail/triangle.png', // 로컬 이미지 경로 사용
+            ),
+            const Gap(defaultGapS),
+            GestureDetector(
+              onTap: () => _toggleThreePoint(index), // 키워드 클릭 시 상태 토글
+              child: Text(
+                keyword,
+                style: CustomTextStyle.body2.apply(
+                  color: darkGray,
+                  decoration: TextDecoration.underline, // 언더라인 추가
+                ),
+              ),
+            ),
+          ],
+        ),
+        if (isOpen) ...[
+          Container(
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.all(10.0),
+            margin: const EdgeInsets.only(top: 8.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(color: primary, width: 1.0),
+            ),
+            child: Text(
+              keywordDetail,
+              style: CustomTextStyle.body2,
+            ),
+          ),
+        ],
+      ],
     );
   }
 }
