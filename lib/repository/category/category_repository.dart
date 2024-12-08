@@ -23,14 +23,15 @@ class CategoryRepository {
   Future<List<NewsArticle>> getNewsByCategory(String category) async {
     try {
       final response = await _dio.get(
-        '/api/category/1?category=$category',
+        '/api/category/0?category=$category',
       );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonData = response.data;
-        print(jsonData);
-        // List<dynamic> newsListData = jsonData['result'] as List<dynamic>;
-        // return newsListData.map((json) => NewsArticle.fromJson(json as Map<String, dynamic>)).toList();
+        print('jsonData: $jsonData');
+        List<dynamic> newsListData = jsonData['newsList'] as List<dynamic>;
+        print('newsListData: $newsListData');
+        return newsListData.map((json) => NewsArticle.fromJson(json as Map<String, dynamic>)).toList();
       }
 
       throw Exception();
