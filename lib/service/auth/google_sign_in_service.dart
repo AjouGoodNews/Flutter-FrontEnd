@@ -10,17 +10,17 @@ import 'package:goodnews/service/logger/logger.dart';
 
 class GoogleSignInService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: '787484589868-258tsbj3vogqecahmeblu1q7eqtglnvr.apps.googleusercontent.com');
   final AuthRepository _auth = AuthRepository();
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
-  Future<bool> signIn() async {
+  Future<Map<String, dynamic>?> signIn() async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
       if (googleUser == null) {
         logger.e('[구글 로그인] 로그인 취소');
-        return false;
+        return null;
       }
 
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -35,16 +35,22 @@ class GoogleSignInService {
 
       if (googleAccessToken == null) {
         logger.w("구글 액세스 토큰 없음");
-        return false;
+        return null;
       }
 
-      final tokens = await _auth.logIn(googleAccessToken);
+      if (googleIdToken == null) {
+        logger.w("구글 idToken 토큰 없음");
+        return null;
+      }
 
-      final String accessToken = tokens['accessToken']!;
-      final String refreshToken = tokens['refreshToken']!;
+      final res = await _auth.logIn(googleIdToken);
+
+      final String accessToken = res['accessToken'];
+      final bool isProfileComplete = res['isProfileComplete'];
 
       await _secureStorage.write(key: 'accessToken', value: accessToken);
-      await _secureStorage.write(key: 'refreshToken', value: refreshToken);
+      // await _secureStorage.write(key: 'refreshToken', value: refreshToken);
+      await _secureStorage.write(key: 'refreshToken', value: accessToken);
 
       UserCredential? userCredential = await _firebaseAuth.signInWithCredential(credential);
 
@@ -52,14 +58,17 @@ class GoogleSignInService {
       logger.e("구글 로그인 성공: ${userCredential.user}");
       // await _sendUserInfoToServer(userCredential.user);
 
-      return true;
+      return {
+        'accessToken': accessToken,
+        'isProfileComplete': isProfileComplete,
+      };
     } catch (e) {
       logger.e("구글 로그인 실패", error: e);
 
       await _firebaseAuth.signOut();
       await _googleSignIn.signOut();
 
-      return false;
+      return null;
     }
   }
 
@@ -89,33 +98,3 @@ class GoogleSignInService {
     }
   }
 }
-
-// 사용자 정보를 서버에 전송하는 메서드
-// Future<void> _sendUserInfoToServer(User? user) async {
-//   if (user == null) return;
-//
-//   final url = Uri.http('10.0.2.2:8080', '/api/login/success');
-//   final response = await http.post(
-//       url,
-//       headers: { "Content-Type": "application/json" },
-//       body: json.encode({'email': user.email, 'name': user.displayName})
-//   );
-//
-//   // if (response.statusCode == 200) {
-//   //   logger.i('서버와의 통신 성공: ${response}');
-//   // } else {
-//   //   logger.e('서버와의 통신 실패: ${response.statusCode}');
-//   // }
-//   if (response.statusCode == 200) {
-//     logger.i('서버와의 통신 성공: ${response}');
-//   } else if (response.statusCode == 302) {
-//     // 리다이렉션 처리
-//     final redirectUrl = response.headers['location'];
-//     if (redirectUrl != null) {
-//       logger.i('리다이렉트: $redirectUrl');
-//       // 필요한 경우 여기서 리다이렉션 요청을 추가로 보낼 수 있습니다.
-//     }
-//   } else {
-//     logger.e('서버와의 통신 실패: ${response.statusCode}');
-//   }
-// }

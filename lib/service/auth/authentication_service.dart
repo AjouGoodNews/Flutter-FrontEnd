@@ -17,12 +17,12 @@ class AuthenticationService {
 
   List<SignInMethod> get signInMethods => _getCurrentLoginPlatform();
 
-  Future<bool> signIn(SignInMethod? signInMethod) async {
+  Future<Map<String, dynamic>?> signIn(SignInMethod? signInMethod) async {
     switch (signInMethod) {
       case SignInMethod.GOOGLE:
         return await _googleSignInService.signIn();
-      case SignInMethod.APPLE:
-        return await _appleSignInService.signIn();
+      // case SignInMethod.APPLE:
+      //   return await _appleSignInService.signIn();
       default:
         throw Exception('login failure');
     }

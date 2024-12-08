@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:goodnews/model/news/news_article.dart';
+import 'package:goodnews/repository/category/category_repository.dart';
 import 'package:goodnews/repository/home/home_repository.dart';
 import 'package:goodnews/service/logger/logger.dart';
 import 'package:goodnews/view/news_category/components/category_select_button.dart';
@@ -22,8 +24,10 @@ class NewsCategoryScreen extends StatefulWidget {
 class _NewsCategoryScreen extends State<NewsCategoryScreen> {
   int _selectedCategoryIndex = 0;
   bool _isSummary = true;
-  final HomeRepository _repository = HomeRepository(); // Repository 인스턴스 생성
-  List<String> _myCategoryData = []; // API 호출 결과를 저장할 리스트
+  final HomeRepository _homeRepository = HomeRepository();
+  final CategoryRepository _categoryRepository = CategoryRepository();
+  List<String> _myCategoryData = [];
+  List<NewsArticle> _news = [];
 
   @override
   void initState() {
@@ -34,18 +38,24 @@ class _NewsCategoryScreen extends State<NewsCategoryScreen> {
   Future<void> _fetchNewsData() async {
     try {
       // API 호출
-      final data = await _repository.getUserCategory();
+      final data = await _homeRepository.getUserCategory();
+      final newsData = await _categoryRepository.getNewsByCategory(data[0]);
+
       setState(() {
-        _myCategoryData = data; // API로부터 받은 데이터를 상태에 저장
+        _myCategoryData = data;
+        _news = newsData;
       });
     } catch (e) {
       // logger.e('뉴스 데이터 가져오기 실패: $e');
     }
   }
 
-  void _onCategoryButtonClick(int index) {
+  void _onCategoryButtonClick(int index, List<NewsCategory> sortedCategories) async {
+    final newsData = await _categoryRepository.getNewsByCategory(sortedCategories[index].name);
+
     setState(() {
       _selectedCategoryIndex = index;
+      _news = newsData;
     });
   }
 
@@ -249,7 +259,7 @@ class _NewsCategoryScreen extends State<NewsCategoryScreen> {
                           padding: const EdgeInsets.only(right: 13), // 버튼 사이의 간격
                           child: CategorySelectButton(
                             label: sortedCategories[index].domain,
-                            onPressed: () => _onCategoryButtonClick(index),
+                            onPressed: () => _onCategoryButtonClick(index, sortedCategories),
                             isSelected: _selectedCategoryIndex == index, // 선택된 버튼 스타일링
                           ),
                         );

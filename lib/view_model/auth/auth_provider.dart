@@ -18,6 +18,8 @@ class AuthNotifier extends StateNotifier {
   AuthNotifier(this.ref) : super(null);
 
   Future<void> checkLoginStatus() async {
+    // await secureStorage.delete(key: 'accessToken');
+    // await secureStorage.delete(key: 'refreshToken');
     String? accessToken = await secureStorage.read(key: 'accessToken');
     String? refreshToken = await secureStorage.read(key: 'refreshToken');
 
@@ -28,19 +30,28 @@ class AuthNotifier extends StateNotifier {
     }
   }
 
-  Future<void> signIn(SignInMethod? signInMethod) async {
+  Future<Map<String, dynamic>?> signIn(SignInMethod? signInMethod) async {
     try {
       ref.read(authStateProvider.notifier).state = AuthState.loading;
 
-      bool isSignedIn = await authenticationService.signIn(signInMethod);
+      // bool isSignedIn = await authenticationService.signIn(signInMethod);
+      final res = await authenticationService.signIn(signInMethod);
 
-      if (isSignedIn) {
+      // if (isSignedIn) {
+      //   ref.read(authStateProvider.notifier).state = AuthState.authenticated;
+      // } else {
+      //   ref.read(authStateProvider.notifier).state = AuthState.unauthenticated;
+      // }
+      if (res != null && res['isProfileComplete'] != null) {
         ref.read(authStateProvider.notifier).state = AuthState.authenticated;
+        return res;
       } else {
         ref.read(authStateProvider.notifier).state = AuthState.unauthenticated;
+        return null;
       }
     } catch (e) {
       ref.read(authStateProvider.notifier).state = AuthState.unauthenticated;
+      return null;
     }
   }
 

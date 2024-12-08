@@ -64,12 +64,12 @@ class LoginButtonsByPlatform extends ConsumerWidget {
   }
 
   void _onTappedGoogleLogin(BuildContext context, WidgetRef ref) async {
-    // if (hasAgreed) {
-    //   _handleSigningIn(context, ref, signInMethod: SignInMethod.GOOGLE);
-    // } else {
-    //   _showAgreementNeeded(context: context);
-    //   return;
-    // }
+    if (hasAgreed) {
+      _handleSigningIn(context, ref, signInMethod: SignInMethod.GOOGLE);
+    } else {
+      _showAgreementNeeded(context: context);
+      return;
+    }
     // if (hasAgreed) {
     //   Navigator.push(
     //     context,
@@ -81,29 +81,29 @@ class LoginButtonsByPlatform extends ConsumerWidget {
     //   _showAgreementNeeded(context: context);
     // }
 
-    if (!hasAgreed) {
-      _showAgreementNeeded(context: context);
-      return;
-    }
+    // if (!hasAgreed) {
+    //   _showAgreementNeeded(context: context);
+    //   return;
+    // }
 
-    try {
-      final url = Uri.http('localhost:8080', '/api/login');
-      final response = await http.get(url);
-      print('response.statusCode: $response.statusCode');
-      if (response.statusCode != 200) return;
-
-      final loginPageHtml = response.body;
-      print('loginPageHtml: $loginPageHtml');
-      // 웹뷰로 로그인 페이지 HTML 전달
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WebViewExample(html: loginPageHtml),
-        ),
-      );
-    } catch (e) {
-      print('Error: $e');
-    }
+    // try {
+    //   final url = Uri.http('localhost:8080', '/api/login');
+    //   final response = await http.get(url);
+    //   print('response.statusCode: $response.statusCode');
+    //   if (response.statusCode != 200) return;
+    //
+    //   final loginPageHtml = response.body;
+    //   print('loginPageHtml: $loginPageHtml');
+    //   // 웹뷰로 로그인 페이지 HTML 전달
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => WebViewExample(html: loginPageHtml),
+    //     ),
+    //   );
+    // } catch (e) {
+    //   print('Error: $e');
+    // }
   }
 
   // void _onTappedAppleLogin(BuildContext context, WidgetRef ref) async {
@@ -117,12 +117,35 @@ class LoginButtonsByPlatform extends ConsumerWidget {
   void _handleSigningIn(BuildContext context, WidgetRef ref, {SignInMethod? signInMethod}) async {
     final authNotifier = ref.read(authProvider.notifier);
 
-    await authNotifier.signIn(signInMethod);
+    final res = await authNotifier.signIn(signInMethod);
 
+    if (res == null) {
+      logger.e("로그인 실패");
+      return; // 로그인 실패 시 함수 종료
+    }
+
+    final bool? isProfileComplete = res['isProfileComplete'];
+
+    print('isProfileComplete: $isProfileComplete');
+
+    if (isProfileComplete == null) {
+      logger.e("isProfileComplete 값이 null입니다.");
+      return;
+    }
+
+    if (isProfileComplete) {
+      Navigator.push(
+        context,
+        CupertinoPageRoute(
+          builder: (context) => NewsCategoryScreen(),
+        ),
+      );
+      return;
+    }
     Navigator.push(
       context,
       CupertinoPageRoute(
-        builder: (context) => new CategorySelectScreen(),
+        builder: (context) => CategorySelectScreen(),
       ),
     );
   }
@@ -152,103 +175,104 @@ class LoginButtonsByPlatform extends ConsumerWidget {
   }
 }
 
-class WebViewExample extends StatefulWidget {
-  final String html;
+/// 웹뷰 사용한 방식
+// class WebViewExample extends StatefulWidget {
+//   final String html;
+//
+//   const WebViewExample({required this.html, Key? key}) : super(key: key);
+//
+//   @override
+//   _WebViewExampleState createState() => _WebViewExampleState();
+// }
 
-  const WebViewExample({required this.html, Key? key}) : super(key: key);
+// class _WebViewExampleState extends State<WebViewExample> {
+//   late InAppWebViewController webViewController;
+//   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     String modifiedHtml = widget.html.replaceAll(
+//       '/oauth2/authorization/google',
+//       'http:/localhost:8080/oauth2/authorization/google', // Use your actual URL
+//     );
+//
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('로그인'),
+//       ),
+//       body: InAppWebView(
+//         initialData: InAppWebViewInitialData(
+//           data: modifiedHtml,
+//           mimeType: 'text/html',
+//           encoding: 'utf-8',
+//         ),
+//
+//         onWebViewCreated: (controller) {
+//           webViewController = controller;
+//         },
+//         onLoadStop: (controller, url) async {
+//           print("Page finished loading: $url");
+//           // 로그인 성공 후 리다이렉트 URL 감지
+//           if (url.toString().contains('/login/oauth2/code/google?state=')) {
+//             print("로그인 성공");
+//
+//             // 페이지의 HTML을 가져와서 body 값을 읽어오기
+//             String? htmlContent = await webViewController.getHtml();
+//             print('htmlContent: $htmlContent');
+//
+//             final token = _extractValueFromHtml(htmlContent!, 'token');
+//             final isProfileComplete = _extractValueFromHtml(htmlContent!, 'isProfileComplete');
+//
+//             if (token == null) {
+//               print("토큰 추출 실패");
+//               Navigator.pop(context); // 웹뷰 닫기
+//               return;
+//             }
+//
+//             await _secureStorage.write(key: 'accessToken', value: token); // 토큰 저장
+//             await _secureStorage.write(key: 'refreshToken', value: token); // 토큰 저장
+//             print("토큰 저장 완료: $token");
+//             print("isProfileComplete: $isProfileComplete");
+//
+//             if (isProfileComplete == null) {
+//               Navigator.push(
+//                 context,
+//                 MaterialPageRoute(
+//                   builder: (context) => CategorySelectScreen(),
+//                 ),
+//               );
+//               return;
+//             }
+//
+//             Navigator.push(
+//               context,
+//               MaterialPageRoute(
+//                 builder: (context) => NewsCategoryScreen(),
+//               ),
+//             );
+//           }
+//         },
+//         //아래가 없으면 403 에러 disallowed_useragent가 난다.
+//         initialOptions: InAppWebViewGroupOptions(
+//           crossPlatform: InAppWebViewOptions(
+//             userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
+//           )
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-  @override
-  _WebViewExampleState createState() => _WebViewExampleState();
-}
-
-class _WebViewExampleState extends State<WebViewExample> {
-  late InAppWebViewController webViewController;
-  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
-
-  @override
-  Widget build(BuildContext context) {
-    String modifiedHtml = widget.html.replaceAll(
-      '/oauth2/authorization/google',
-      'http:/localhost:8080/oauth2/authorization/google', // Use your actual URL
-    );
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('로그인'),
-      ),
-      body: InAppWebView(
-        initialData: InAppWebViewInitialData(
-          data: modifiedHtml,
-          mimeType: 'text/html',
-          encoding: 'utf-8',
-        ),
-
-        onWebViewCreated: (controller) {
-          webViewController = controller;
-        },
-        onLoadStop: (controller, url) async {
-          print("Page finished loading: $url");
-          // 로그인 성공 후 리다이렉트 URL 감지
-          if (url.toString().contains('/login/oauth2/code/google?state=')) {
-            print("로그인 성공");
-
-            // 페이지의 HTML을 가져와서 body 값을 읽어오기
-            String? htmlContent = await webViewController.getHtml();
-            print('htmlContent: $htmlContent');
-
-            final token = _extractValueFromHtml(htmlContent!, 'token');
-            final isProfileComplete = _extractValueFromHtml(htmlContent!, 'isProfileComplete');
-
-            if (token == null) {
-              print("토큰 추출 실패");
-              Navigator.pop(context); // 웹뷰 닫기
-              return;
-            }
-
-            await _secureStorage.write(key: 'accessToken', value: token); // 토큰 저장
-            await _secureStorage.write(key: 'refreshToken', value: token); // 토큰 저장
-            print("토큰 저장 완료: $token");
-            print("isProfileComplete: $isProfileComplete");
-
-            if (isProfileComplete == null) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CategorySelectScreen(),
-                ),
-              );
-              return;
-            }
-
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NewsCategoryScreen(),
-              ),
-            );
-          }
-        },
-        //아래가 없으면 403 에러 disallowed_useragent가 난다.
-        initialOptions: InAppWebViewGroupOptions(
-          crossPlatform: InAppWebViewOptions(
-            userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
-          )
-        ),
-      ),
-    );
-  }
-}
-
-String? _extractValueFromHtml(String html, String key) {
-  // 정규 표현식을 사용하여 JSON에서 특정 키에 대한 값 추출
-  RegExp regex = RegExp(r'"' + RegExp.escape(key) + r'":\s*"([^"]+)"');
-  Match? match = regex.firstMatch(html);
-
-  if (match != null && match.groupCount > 0) {
-    return match.group(1); // 요청한 키에 대한 값
-  }
-  return null;
-}
+// String? _extractValueFromHtml(String html, String key) {
+//   // 정규 표현식을 사용하여 JSON에서 특정 키에 대한 값 추출
+//   RegExp regex = RegExp(r'"' + RegExp.escape(key) + r'":\s*"([^"]+)"');
+//   Match? match = regex.firstMatch(html);
+//
+//   if (match != null && match.groupCount > 0) {
+//     return match.group(1); // 요청한 키에 대한 값
+//   }
+//   return null;
+// }
 
 // class WebViewExample extends StatelessWidget {
 //   final String html;
